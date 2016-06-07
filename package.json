@@ -1,11 +1,22 @@
 {
   "name": "bct-trust",
-  "version": "1.0.0",
-  "description": "Trust system for bitcointalk",
+  "version": "0.0.1",
+  "description": "Bitcoin talk trust plugin for epochtalk forum",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Anthony Kinsey <anthonyjk@gmail.com> (http://github.com/akinsey)",
-  "license": "ISC"
+  "keywords": [
+    "epochtalk",
+    "forum",
+    "bitcointalk",
+    "trust"
+  ],
+  "author": "Anthony Kinsey",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.3.1",
+    "epochtalk-core-pg": "epochtalk/core-pg",
+    "joi": "^9.0.0-3"
+  }
 }
