@@ -19,8 +19,8 @@ module.exports = {
       payload: {
         user_id: Joi.string().required(),
         risked_btc: Joi.number(),
-        scammer: Joi.boolean().required(),
-        reference: Joi.string().min(3).max(1024),
+        scammer: Joi.boolean().allow(null),
+        reference: Joi.string().min(3).max(1024).optional(),
         comments: Joi.string().min(3).max(1024)
       }
     }
