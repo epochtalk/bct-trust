@@ -2,6 +2,7 @@ var ctrl = ['$anchorScroll', '$timeout', 'Session', 'Alert', 'UserTrust', 'user'
   function($anchorScroll, $timeout, Session, Alert, UserTrust, user) {
     var ctrl = this;
     this.user = user;
+    this.settingsUsername = Session.user.username;
 
     this.feedback = {
       user_id: user.id,

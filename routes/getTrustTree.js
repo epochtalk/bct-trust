@@ -1,3 +1,5 @@
+var Joi = require('joi');
+
 /**
   * @apiVersion 0.4.0
   * @apiGroup Trust
@@ -10,10 +12,16 @@
   */
 module.exports = {
   method: 'GET',
-  path: '/api/trust/list',
-  config: { auth: { strategy: 'jwt' } },
+  path: '/api/trust/tree',
+  config: {
+    auth: { strategy: 'jwt' },
+    validate: { query: { hierarchy: Joi.boolean() } }
+  },
   handler: function(request, reply) {
-    var promise = request.db.userTrust.getTrustList(request.auth.credentials.id);
+    var userId = request.auth.credentials.id;
+    var promise;
+    if (request.query.hierarchy) { promise = request.db.userTrust.getTrustHierarchy(userId, 2); }
+    else { promise = request.db.userTrust.getTrustDepth(userId); }
     return reply(promise);
   }
 };

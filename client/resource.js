@@ -6,10 +6,17 @@ var resource = ['$resource',
       },
       getTrustList: {
         method: 'GET',
-        url: '/api/trust/:username/list',
-        params: { username: '@username' },
+        url: '/api/trust/list'
+      },
+      editTrustList: {
+        method: 'POST',
+        url: '/api/trust/list'
+      },
+      getTrustTree: {
+        method: 'GET',
+        url: '/api/trust/tree',
         isArray: true
-      }
+      },
     });
   }
 ];

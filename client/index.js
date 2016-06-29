@@ -30,7 +30,7 @@ var route = ['$stateProvider', function($stateProvider) {
 
   $stateProvider.state('trust-settings', {
     parent: 'public-layout',
-    url: '/settings/trust',
+    url: '/settings/trust?hierarchy',
     reloadOnSearch: false,
     views: {
       'content': {
@@ -57,14 +57,13 @@ var route = ['$stateProvider', function($stateProvider) {
         return User.get({ id: Session.user.username }).$promise
         .then(function(user) { return user; });
       }],
-      trustLists: ['UserTrust', 'Session', function(UserTrust, Session) {
-        return UserTrust.getTrustList({ username: Session.user.username }).$promise
-        .then(function(list) {
-          return {
-            trustList: list.filter(function(e) { return e.type === 0; }),
-            untrustList: list.filter(function(e) { return e.type === 1; })
-          };
-        });
+      trustLists: ['UserTrust', function(UserTrust) {
+        return UserTrust.getTrustList().$promise
+        .then(function(lists) { console.log(lists); return lists; });
+      }],
+      trustTree: ['UserTrust', '$stateParams', function(UserTrust, $stateParams) {
+        return UserTrust.getTrustTree({ hierarchy: $stateParams.hierarchy }).$promise
+        .then(function(tree) { return tree; });
       }]
     }
   });

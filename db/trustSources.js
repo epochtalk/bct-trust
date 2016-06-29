@@ -18,7 +18,6 @@ module.exports = function(userId, maxDepth, debug) {
 
     var votes = {};
     if (last.length === 0) { return; }
-
     var trustQuery = 'SELECT user_id_trusted, type FROM trust WHERE user_id = ANY($1)';
     return db.sqlQuery(trustQuery, [last])
     .then(function(trustInfo) {
@@ -32,8 +31,17 @@ module.exports = function(userId, maxDepth, debug) {
       last = []; // clear out last array
       for (var y = 0; y < trustInfo.length; y++) {
         var curId = trustInfo[y].user_id_trusted;
-        var curType = trustInfo[y].type;
-        if (debug && !untrusted[curId]) { debug[i].push([curId, curType]); }
+        var curVotes = votes[curId];
+        if (debug && !untrusted[curId]) {
+          var exists = false;
+          for(var n = 0; n < debug[i].length; n++) {
+            exists = debug[i][n][0] === curId;
+            if (exists) { break; }
+          }
+          // Don't add duplicates ( There should be a better way to do this )
+          // Debug could be a nested object instead of a nested array
+          if (!exists) { debug[i].push([curId, curVotes]); }
+        }
 
         if (votes[curId] >= 0 && !untrusted[curId]) {
           sources.push(curId);

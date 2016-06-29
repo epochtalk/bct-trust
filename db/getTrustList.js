@@ -14,28 +14,16 @@ module.exports = function(userId) {
     var defaultTrustQuery = 'SELECT id as user_id_trusted, username as username_trusted, 0 as type FROM users WHERE id = $1';
     // User has trust network
     if (exists) {
-      return db.sqlQuery(q, [userId])
-      .then(function(trustArr) {
-        // Default Trust might be untrusted
-        var defaultTrustExists = false;
-        for (var i = 0; i < trustArr.length; i++) {
-          if (trustArr[0].user_id_trusted === defaultTrustId) {
-            defaultTrustExists = true;
-            break;
-          }
-        }
-        if (defaultTrustExists) { return trustArr; }
-        else {
-          return db.scalar(defaultTrustQuery, [defaultTrustId])
-          .then(function(defaultTrust) {
-            trustArr.unshift(defaultTrust);
-            return trustArr;
-          });
-        }
-      });
+      return db.sqlQuery(q, [userId]);
     }
     // user has no trust network default to defaulttrustacct
-    if (!exists) { return db.sqlQuery(defaultTrustQuery, [defaultTrustId]); }
+    else { return db.sqlQuery(defaultTrustQuery, [defaultTrustId]); }
   })
-  .then(helper.slugify);
+  .then(helper.slugify)
+  .then(function(list) {
+    return {
+      trustList: list.filter(function(e) { return e.type === 0; }),
+      untrustList: list.filter(function(e) { return e.type === 1; })
+    };
+  });
 };
