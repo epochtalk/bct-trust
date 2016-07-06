@@ -17,6 +17,11 @@ var resource = ['$resource',
         url: '/api/trust/tree',
         isArray: true
       },
+      getTrustStats: {
+        method: 'GET',
+        url: '/api/trust/:username',
+        params: { username: '@username' }
+      },
     });
   }
 ];

@@ -62,7 +62,6 @@ module.exports = function(userId, maxDepth, debug) {
   })
   .then(function() {
     sources.push(userId);
-
     if (debug) { debug[0].push([userId, 0]); }
 
     // return unique ids

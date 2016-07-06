@@ -7,4 +7,5 @@ module.exports = {
   getTrustHierarchy: require(path.normalize(__dirname + '/getTrustHierarchy')),
   editTrustList: require(path.normalize(__dirname + '/editTrustList')),
   getTrustList: require(path.normalize(__dirname + '/getTrustList')),
+  getTrustStats: require(path.normalize(__dirname + '/getTrustStats')),
 };

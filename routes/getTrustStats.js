@@ -20,7 +20,7 @@ module.exports = {
   handler: function(request, reply) {
     var promise = request.db.users.userByUsername(request.params.username)
     .then(function(user) {
-      return request.db.userTrust.trustSources(user.id, 2, []);
+      return request.db.userTrust.getTrustStats(user.id, request.auth.credentials.id);
     });
     return reply(promise);
   }
