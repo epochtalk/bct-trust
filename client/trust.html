@@ -2,7 +2,7 @@
   <h3 class="thin-underline">Trust Summary for {{TrustCtrl.user.username}}</h3>
 </div>
 
-<div class="trust-section">
+<div class="trust-section" ng-if="TrustCtrl.loggedIn">
   <a class="button" ng-href="#" ng-click="TrustCtrl.showFeedbackModal = true">Leave feedback for {{TrustCtrl.user.username}}</a> <a class="right" ui-sref="trust-settings"><i class="fa fa-cog"></i> Edit My Trust Settings</a>
   <br />
 </div>

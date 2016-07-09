@@ -3,6 +3,7 @@ var ctrl = ['$anchorScroll', '$timeout', 'Session', 'Alert', 'UserTrust', 'user'
     this.user = user;
     this.userFeedback = feedback;
     this.settingsUsername = Session.user.username;
+    this.loggedIn = Session.isAuthenticated;
 
     this.feedback = {
       user_id: user.id,

@@ -1,4 +1,5 @@
 var Joi = require('joi');
+var Boom = require('boom');
 
 /**
   * @apiVersion 0.4.0
@@ -19,6 +20,7 @@ module.exports = {
   },
   handler: function(request, reply) {
     var promise = request.db.users.userByUsername(request.params.username)
+    .catch(function() { return Boom.notFound(); })
     .then(function(user) {
       return request.db.userTrust.getTrustStats(user.id, request.auth.credentials.id);
     });

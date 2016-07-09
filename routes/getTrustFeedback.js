@@ -1,4 +1,5 @@
 var Joi = require('joi');
+var Boom = require('boom');
 
 /**
   * @apiVersion 0.4.0
@@ -15,10 +16,11 @@ module.exports = {
   path: '/api/trust/{username}/feedback',
   config: {
     auth: { strategy: 'jwt' },
-    validate: { params: { username: Joi.string().required() } }
+    validate: { params: { username: Joi.string().min(1).required() } }
   },
   handler: function(request, reply) {
     var promise = request.db.users.userByUsername(request.params.username)
+    .catch(function() { return Boom.notFound(); })
     .then(function(user) {
       return request.db.userTrust.getTrustFeedback(user.id, request.auth.credentials.id);
     });
