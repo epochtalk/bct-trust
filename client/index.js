@@ -24,6 +24,10 @@ var route = ['$stateProvider', function($stateProvider) {
       user: ['User', '$stateParams', function(User, $stateParams) {
         return User.get({ id: $stateParams.username }).$promise
         .then(function(user) { return user; });
+      }],
+      feedback: ['UserTrust', '$stateParams', function(UserTrust, $stateParams) {
+        return UserTrust.getTrustFeedback({ username: $stateParams.username }).$promise
+        .then(function(feedback) { return feedback; });
       }]
     }
   });

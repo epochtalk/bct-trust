@@ -22,6 +22,11 @@ var resource = ['$resource',
         url: '/api/trust/:username',
         params: { username: '@username' }
       },
+      getTrustFeedback: {
+        method: 'GET',
+        url: '/api/trust/:username/feedback',
+        params: { username: '@username' }
+      }
     });
   }
 ];

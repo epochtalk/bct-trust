@@ -3,8 +3,9 @@ var dbc = require(path.normalize(__dirname + '/db'));
 var db = dbc.db;
 var trustSources = require(path.normalize(__dirname + '/trustSources'));
 var helper = dbc.helper;
+var Promise = require('bluebird');
 
-module.exports = function(userId, authedUserId) {
+module.exports = function(userId, authedUserId, authTrustedSources) {
   if (!userId) { return null; }
 
   userId = helper.deslugify(userId);
@@ -12,8 +13,14 @@ module.exports = function(userId, authedUserId) {
   var trusted, uniqueNegFeedback, uniquePosFeedback;
   var maxDepth = 2;
 
+  var trustedSourcesPromise = trustSources(authedUserId, maxDepth);
+  // Don't calculate trusted sources if they are passed in
+  if (authTrustedSources) {
+    trustedSourcesPromise = new Promise(function(resolve) { resolve(authTrustedSources); });
+  }
+
   // Get list of authenticated users trusted sources
-  return trustSources(authedUserId, maxDepth)
+  return trustedSourcesPromise
   // Select negative feedback left on this user by authed user's trusted sources
   .then(function(trustedSources) {
     trusted = trustedSources;

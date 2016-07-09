@@ -11,6 +11,10 @@ module.exports = function(opts) {
   var reference = opts.reference || null;
   var comments = opts.comments || null;
 
+  if (reference !== null && !reference.match(/^[a-zA-Z]+:\/\//)) {
+    reference = 'http://' + reference;
+  }
+
   var q = 'INSERT INTO trust_feedback(user_id, reporter_id, risked_btc, scammer, reference, comments, created_at) VALUES($1, $2, $3, $4, $5, $6, now()) RETURNING id, user_id, reporter_id, scammer, reference, comments, created_at';
   return db.scalar(q, [userId, reporterId, riskedBtc, scammer, reference, comments])
   .then(helper.slugify);
