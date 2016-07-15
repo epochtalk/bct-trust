@@ -4,9 +4,9 @@ var Joi = require('joi');
   * @apiVersion 0.4.0
   * @apiGroup Trust
   * @api {GET} /trusttree Get Trust Tree
-  * @apiName GetTrustScoreStats
+  * @apiName GetTrustTree
   * @apiPermission User
-  * @apiDescription Used to retrieve trust score for a particular user.
+  * @apiDescription Used to retrieve trust tree for the authed user.
   *
   * @apiParam (Query) {boolean} hierarchy Boolean indicating whether to grab the hierarchical trust view or the depth view
   *
