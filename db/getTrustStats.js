@@ -9,18 +9,20 @@ module.exports = function(userId, authedUserId, authTrustedSources) {
   if (!userId) { return null; }
 
   userId = helper.deslugify(userId);
-
   var trusted, uniqueNegFeedback, uniquePosFeedback;
-  var maxDepth = 2;
 
-  var trustedSourcesPromise = trustSources(authedUserId, maxDepth);
-  // Don't calculate trusted sources if they are passed in
-  if (authTrustedSources) {
-    trustedSourcesPromise = new Promise(function(resolve) { resolve(authTrustedSources); });
-  }
-
-  // Get list of authenticated users trusted sources
-  return trustedSourcesPromise
+  var maxDepthQ = 'SELECT max_depth FROM trust_max_depth WHERE user_id = $1';
+  return db.scalar(maxDepthQ, [helper.deslugify(authedUserId)])
+  .then(function(row) {
+    var maxDepth = row && row.max_depth >= 0 && row.max_depth <= 4 ? row.max_depth : 2;
+    var trustedSourcesPromise = trustSources(authedUserId, maxDepth);
+    // Don't calculate trusted sources if they are passed in
+    if (authTrustedSources) {
+      trustedSourcesPromise = new Promise(function(resolve) { resolve(authTrustedSources); });
+    }
+    // Get list of authenticated users trusted sources
+    return trustedSourcesPromise;
+  })
   // Select negative feedback left on this user by authed user's trusted sources
   .then(function(trustedSources) {
     trusted = trustedSources;

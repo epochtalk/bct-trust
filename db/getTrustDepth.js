@@ -7,9 +7,12 @@ var Promise = require('bluebird');
 
 module.exports = function(userId) {
   var debug = [];
-  var maxDepth = 2;
-
-  return trustSources(userId, maxDepth, debug)
+  var maxDepthQ = 'SELECT max_depth FROM trust_max_depth WHERE user_id = $1';
+  return db.scalar(maxDepthQ, [helper.deslugify(userId)])
+  .then(function(row) {
+    var maxDepth = row && row.max_depth >= 0 && row.max_depth <= 4 ? row.max_depth : 2;
+    return trustSources(userId, maxDepth, debug);
+  })
   .then(function() {
     var depth = 0;
     return Promise.map(debug, function(level) {

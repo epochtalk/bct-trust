@@ -6,15 +6,23 @@ var resource = ['$resource',
       },
       getTrustList: {
         method: 'GET',
-        url: '/api/trust/list'
+        url: '/api/trustlist'
       },
       editTrustList: {
         method: 'POST',
-        url: '/api/trust/list'
+        url: '/api/trustlist'
+      },
+      getDefaultTrustList: {
+        method: 'GET',
+        url: '/api/admin/trustlist'
+      },
+      editDefaultTrustList: {
+        method: 'POST',
+        url: '/api/admin/trustlist'
       },
       getTrustTree: {
         method: 'GET',
-        url: '/api/trust/tree',
+        url: '/api/trusttree',
         isArray: true
       },
       getTrustStats: {
@@ -24,8 +32,22 @@ var resource = ['$resource',
       },
       getTrustFeedback: {
         method: 'GET',
-        url: '/api/trust/:username/feedback',
+        url: '/api/trustfeedback/:username',
         params: { username: '@username' }
+      },
+      getTrustBoards: {
+        method: 'GET',
+        url: '/api/trustboards',
+        isArray: true
+      },
+      addTrustBoard: {
+        method: 'POST',
+        url: '/api/admin/trustboards'
+      },
+      deleteTrustBoard: {
+        method: 'DELETE',
+        url: '/api/admin/trustboards/:board_id',
+        params: { board_id: '@board_id' }
       }
     });
   }

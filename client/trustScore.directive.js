@@ -1,10 +1,10 @@
-var html= '<span class="trust-score {{vm.style()}}">{{vm.stats.score}} : <span class="{{vm.negStyle}}">-{{vm.stats.neg}}</span> / +{{vm.stats.pos}}</span>';
+var html= '<span ng-if="vm.visible" class="trust-score {{vm.style()}}">{{vm.stats.score}} : <span class="{{vm.negStyle}}">-{{vm.stats.neg}}</span> / +{{vm.stats.pos}}</span>';
 
 var directive = [function() {
   return {
     restrict: 'E',
     scope: true,
-    bindToController: { user: '=' },
+    bindToController: { user: '=', visible: '=' },
     template: html,
     controllerAs: 'vm',
     controller: [function() {

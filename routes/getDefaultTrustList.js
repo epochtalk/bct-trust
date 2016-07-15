@@ -1,10 +1,10 @@
 /**
   * @apiVersion 0.4.0
   * @apiGroup Trust
-  * @api {GET} /trustlist Get Trust List
-  * @apiName GetTrustList
-  * @apiPermission User
-  * @apiDescription Retrieve trust list for authed user's account
+  * @api {GET} /admin/trustlist Get Default Trust List
+  * @apiName GetDefaultTrustList
+  * @apiPermission Super Administrator
+  * @apiDescription Retrieve trust list for default trust account
   *
   * @apiSuccess {string} max_depth The max depth for this user's trust web
   * @apiSuccess {object[]} trustList An array of trusted users.
@@ -16,16 +16,19 @@
   * @apiSuccess {string} untrustList.username_trusted The username of the user being untrusted.
   * @apiSuccess {number} untrustList.type Type 1 which represents untrusted users.
   *
+  * @apiError (Error 403) Forbidden User doesn't have permissions to get the default trust list.
   * @apiError (Error 500) InternalServerError There was an issue retrieving the default trust list.
   */
 module.exports = {
   method: 'GET',
-  path: '/api/trustlist',
+  path: '/api/admin/trustlist',
   config: {
-    auth: { strategy: 'jwt' }
+    auth: { strategy: 'jwt' },
+    pre: [ { method: 'auth.userTrust.getDefaultTrustList(server, auth)' } ]
   },
   handler: function(request, reply) {
-    var promise = request.db.userTrust.getTrustList(request.auth.credentials.id);
+    var defaultTrustId = 'U31jnDtQRUW-oYs4rM9Ajg';
+    var promise = request.db.userTrust.getTrustList(defaultTrustId);
     return reply(promise);
   }
 };

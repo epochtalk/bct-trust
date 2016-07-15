@@ -4,11 +4,10 @@ var db = dbc.db;
 var helper = dbc.helper;
 var Promise = require('bluebird');
 
-var recursiveQ = function(userId, depth) {
+var recursiveQ = function(userId, depth, maxDepth) {
   var out = [];
 
   var defaultTrustUserId = '537d639c-3b50-4545-bea1-8b38accf408e';
-  var maxDepth = 2;
 
   if (maxDepth < depth || !userId) { return Promise.resolve([]); }
 
@@ -23,7 +22,7 @@ var recursiveQ = function(userId, depth) {
     else { return trusted; }
   })
   .each(function(userData) {
-    return recursiveQ(userData.user_id_trusted, depth + 1)
+    return recursiveQ(userData.user_id_trusted, depth + 1, maxDepth)
     .then(function(output) {
 
       userData.trusted = output;
@@ -35,8 +34,13 @@ var recursiveQ = function(userId, depth) {
 
 module.exports = function(userId) {
   userId = helper.deslugify(userId);
-  var depth = 0;
-  return recursiveQ(userId, depth)
+  var maxDepthQ = 'SELECT max_depth FROM trust_max_depth WHERE user_id = $1';
+  return db.scalar(maxDepthQ, [userId])
+  .then(function(row) {
+    var maxDepth = row && row.max_depth >= 0 && row.max_depth <= 4 ? row.max_depth : 2;
+    var depth = 0;
+    return recursiveQ(userId, depth, maxDepth);
+  })
   .then(helper.slugify);
 };
 

@@ -3,10 +3,10 @@ var Joi = require('joi');
 /**
   * @apiVersion 0.4.0
   * @apiGroup Trust
-  * @api {POST} /trustlist Edit Trust List
-  * @apiName EditTrustList
-  * @apiPermission User
-  * @apiDescription Used to edit the authed user's trust list
+  * @api {POST} /admin/trustlist Edit Default Trust List
+  * @apiName EditDefaultTrustList
+  * @apiPermission Super Administrator
+  * @apiDescription Used to edit the trust list of the default trust account
   *
   * @apiParam (Payload) {number} max_depth The max depth of the user's trust web
   * @apiParam (Payload) {object[]} list List containing trusted/untrusted users
@@ -24,11 +24,12 @@ var Joi = require('joi');
   * @apiSuccess {string} untrustList.username_trusted The username of the user being untrusted.
   * @apiSuccess {number} untrustList.type Type 1 which represents untrusted users.
   *
-  * @apiError (Error 500) InternalServerError There was an issue editing user's trust list.
+  * @apiError (Error 403) Forbidden User doesn't have permissions to edit the default trust list.
+  * @apiError (Error 500) InternalServerError There was an issue editing the default trust list.
   */
 module.exports = {
   method: 'POST',
-  path: '/api/trustlist',
+  path: '/api/admin/trustlist',
   config: {
     auth: { strategy: 'jwt' },
     validate: {
@@ -40,11 +41,14 @@ module.exports = {
           type: Joi.number().min(0).max(1).required()
         }))
       }
-    }
+    },
+    pre: [ { method: 'auth.userTrust.editDefaultTrustList(server, auth)' } ]
   },
   handler: function(request, reply) {
+    var defaultTrustId = 'U31jnDtQRUW-oYs4rM9Ajg';
+
     var opts = {
-      userId: request.auth.credentials.id,
+      userId: defaultTrustId,
       maxDepth: request.payload.max_depth,
       list: request.payload.list
     };

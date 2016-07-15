@@ -9,11 +9,16 @@ module.exports = function(userId, authedUserId) {
   if (!userId) { return null; }
   userId = helper.deslugify(userId);
 
-  var maxDepth = 2;
   var trusted;
   var result = {};
+
+  var maxDepthQ = 'SELECT max_depth FROM trust_max_depth WHERE user_id = $1';
+  return db.scalar(maxDepthQ, [helper.deslugify(authedUserId)])
+  .then(function(row) {
+    var maxDepth = row && row.max_depth >= 0 && row.max_depth <= 4 ? row.max_depth : 2;
+    return trustSources(authedUserId, maxDepth);
+  })
   // Get list of authenticated users trusted sources
-  return trustSources(authedUserId, maxDepth)
   .then(function(trustedSources) {
     trusted = trustedSources;
     var q = 'SELECT id, reporter_id, (SELECT u.username FROM users u WHERE u.id = reporter_id) as reporter_username, risked_btc, reference, comments, created_at, scammer FROM trust_feedback WHERE user_id = $1 AND reporter_id = ANY($2) ORDER BY created_at DESC';

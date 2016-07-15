@@ -1,35 +1,10 @@
-<h3 class="thin-underline">Trust Settings for {{TrustSettingsCtrl.user.username}}</h3>
+<h3 class="thin-underline">Trust Settings for {{TrustSettingsCtrl.settingsUsername}}</h3>
 
-<autocomplete-user-id user-id="TrustSettingsCtrl.userToTrust.user_id_trusted" username="TrustSettingsCtrl.userToTrust.username_trusted" input-placeholder="Type username to add to trust/untrust list"></autocomplete-user-id>
+<trust-list callback="TrustSettingsCtrl.trustListCallback"></trust-list>
 
-<div class="trust-section">
-  <div class="half-column">
-    <button class="fill-row" ng-click="TrustSettingsCtrl.addToTrustList()" ng-disabled="!TrustSettingsCtrl.userToTrust.user_id_trusted || TrustSettingsCtrl.trustedUserExists()">Add to Trusted Users</button>
-  </div>
-  <div class="half-column">
-    <button class="fill-row" ng-click="TrustSettingsCtrl.addToUntrustList()" ng-disabled="!TrustSettingsCtrl.userToTrust.user_id_trusted || TrustSettingsCtrl.untrustedUserExists()">Add to Untrusted Users</button>
-  </div>
-</div>
-<div class="trust-section">
-  <div class="half-column">
-    <h5 class="inline-block">Trusted Users</h5>
-    <a ng-show="TrustSettingsCtrl.selectedTrustedUsers.length" class="remove-active right" ng-href="#" ng-click="TrustSettingsCtrl.removeSelectedTrust()"><i class="fa fa-times"></i> Remove Selected</a>
-    <span ng-hide="TrustSettingsCtrl.selectedTrustedUsers.length" class="remove-inactive right"><i class="fa fa-times"></i> Remove Selected</span>
-    <select id="trustList" class="trust-select" ng-click="TrustSettingsCtrl.selectedUntrustedUsers = [];" ng-options="u.username_trusted for u in TrustSettingsCtrl.trustList track by u.username_trusted" ng-model="TrustSettingsCtrl.selectedTrustedUsers" multiple="multiple">
-    </select>
-  </div>
-  <div class="half-column">
-    <h5 class="inline-block">Untrusted Users</h5>
-    <a ng-show="TrustSettingsCtrl.selectedUntrustedUsers.length" class="remove-active right" ng-href="#" ng-click="TrustSettingsCtrl.removeSelectedUntrust()"><i class="fa fa-times"></i> Remove Selected</a>
-    <span ng-hide="TrustSettingsCtrl.selectedUntrustedUsers.length" class="remove-inactive right"><i class="fa fa-times"></i> Remove Selected</span>
-    <select id="untrustList" class="trust-select" ng-click="TrustSettingsCtrl.selectedstedUsers = [];" ng-options="u.username_trusted for u in TrustSettingsCtrl.untrustList track by u.username_trusted" ng-model="TrustSettingsCtrl.selectedUntrustedUsers" multiple="multiple">
-    </select>
-    <button class="right" ng-click="TrustSettingsCtrl.editTrustList()"><i class="fa fa-save"></i> Save Trust Settings</button>
-  </div>
-</div>
 <div class="trust-section">
   <div class="fill-row">
-  <h4 class="thin-underline"><span class="inline-block">Trust Network ( {{TrustSettingsCtrl.hierarchy ? 'Hierarchical' : 'Depth'}} View )</span>
+  <h5 class="thin-underline"><span class="inline-block">Trust Network ( {{TrustSettingsCtrl.hierarchy ? 'Hierarchical' : 'Depth'}} View )</span>
   <a class="remove-active right" ng-href="#" ng-click="TrustSettingsCtrl.changeTrustView()"><i class="fa fa-retweet"></i> Change to {{!TrustSettingsCtrl.hierarchy ? 'Hierarchical' : 'Depth'}} View</a>
   </h4>
 

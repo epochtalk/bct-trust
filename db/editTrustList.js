@@ -8,7 +8,7 @@ module.exports = function(opts) {
   var userId = helper.deslugify(opts.userId);
   var trustArray = opts.list || [];
   var trustedIds = trustArray.map(function(u) { return helper.deslugify(u.user_id_trusted); });
-  var q;
+  var q, result;
   if (trustedIds.length) {
     q = 'DELETE FROM trust WHERE user_id = $1 AND user_id_trusted NOT IN (\'' + trustedIds.join('\',\'') + '\')';
   }
@@ -34,9 +34,15 @@ module.exports = function(opts) {
     }
   })
   .then(function(list) {
-    return {
+    result = {
       trustList: list.filter(function(e) { return e.type === 0; }),
       untrustList: list.filter(function(e) { return e.type === 1; })
     };
+    q = 'INSERT INTO trust_max_depth (user_id, max_depth) VALUES ($1, $2) ON CONFLICT ON CONSTRAINT user_id_unique DO UPDATE SET max_depth = $2';
+    return db.sqlQuery(q, [userId, opts.maxDepth]);
+  })
+  .then(function() {
+    result.maxDepth = opts.maxDepth;
+    return result;
   });
 };

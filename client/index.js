@@ -21,13 +21,19 @@ var route = ['$stateProvider', function($stateProvider) {
         });
         return deferred.promise;
       }],
-      user: ['User', '$stateParams', function(User, $stateParams) {
-        return User.get({ id: $stateParams.username }).$promise
-        .then(function(user) { return user; });
+      user: ['$q', 'User', '$stateParams', function($q, User, $stateParams) {
+        if ($stateParams.username) {
+          return User.get({ id: $stateParams.username }).$promise
+          .then(function(user) { return user; });
+        }
+        else { return $q.reject({ status: 404, statusText: 'Not Found' }); }
       }],
-      feedback: ['UserTrust', '$stateParams', function(UserTrust, $stateParams) {
-        return UserTrust.getTrustFeedback({ username: $stateParams.username }).$promise
-        .then(function(feedback) { return feedback; });
+      feedback: ['$q', 'UserTrust', '$stateParams', function($q, UserTrust, $stateParams) {
+        if ($stateParams.username) {
+          return UserTrust.getTrustFeedback({ username: $stateParams.username }).$promise
+          .then(function(feedback) { return feedback; });
+        }
+        else { return $q.reject({ status: 404, statusText: 'Not Found' }); }
       }]
     }
   });
@@ -56,14 +62,6 @@ var route = ['$stateProvider', function($stateProvider) {
           deferred.resolve(ctrl);
         });
         return deferred.promise;
-      }],
-      user: ['User', 'Session', function(User, Session) {
-        return User.get({ id: Session.user.username }).$promise
-        .then(function(user) { return user; });
-      }],
-      trustLists: ['UserTrust', function(UserTrust) {
-        return UserTrust.getTrustList().$promise
-        .then(function(lists) { console.log(lists); return lists; });
       }],
       trustTree: ['UserTrust', '$stateParams', function(UserTrust, $stateParams) {
         return UserTrust.getTrustTree({ hierarchy: $stateParams.hierarchy }).$promise

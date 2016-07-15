@@ -13,6 +13,16 @@ function userTrust(request) {
   });
 }
 
+function showTrust(request) {
+  return request.db.userTrust.getTrustBoards()
+  .then(function(boards) {
+    var boardId = request.pre.processed.thread.board_id;
+    request.pre.processed.thread.trust_visible = boards.indexOf(boardId) > -1;
+    return request.pre.processed;
+  });
+}
+
 module.exports = [
-  { path: 'posts.byThread.post', method: userTrust }
+  { path: 'posts.byThread.post', method: userTrust },
+  { path: 'posts.byThread.post', method: showTrust }
 ];

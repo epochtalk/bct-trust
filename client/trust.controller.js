@@ -2,8 +2,8 @@ var ctrl = ['$anchorScroll', '$timeout', 'Session', 'Alert', 'UserTrust', 'user'
     var ctrl = this;
     this.user = user;
     this.userFeedback = feedback;
-    this.settingsUsername = Session.user.username;
     this.loggedIn = Session.isAuthenticated;
+    this.hideAddFeedback = (Session.user.id === user.id) || !Session.user.permissions.userTrust || (Session.user.permissions.userTrust && !Session.user.permissions.userTrust.addTrustFeedback);
 
     this.feedback = {
       user_id: user.id,
@@ -25,12 +25,18 @@ var ctrl = ['$anchorScroll', '$timeout', 'Session', 'Alert', 'UserTrust', 'user'
       ctrl.feedbackSubmitted = true;
       ctrl.submitFeedbackBtnLabel = 'Loading...';
       if (ctrl.feedback.scammer === -1) { ctrl.feedback.scammer = null; }
+      ctrl.feedback.reference = ctrl.feedback.reference || undefined;
       UserTrust.addTrustFeedback(ctrl.feedback).$promise
       .then(function() {
         Alert.success('Successfully left feedback for user ' + user.username);
+        return UserTrust.getTrustFeedback({ username: user.username }).$promise
+        .then(function(updatedFeedback) {
+          ctrl.userFeedback = updatedFeedback;
+        });
       })
-      .catch(function() {
-        Alert.error('There was an error leaving feedback for user ' + user.username);
+      .catch(function(err) {
+        var message = err.message || 'There was an error leaving feedback for user ' + user.username;
+        Alert.error(message);
       })
       .finally(function() {
         ctrl.feedbackSubmitted = false;

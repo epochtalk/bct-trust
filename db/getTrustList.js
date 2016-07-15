@@ -6,6 +6,7 @@ var helper = dbc.helper;
 module.exports = function(userId) {
   userId = helper.deslugify(userId);
   var existsQuery = 'SELECT EXISTS (SELECT user_id_trusted FROM trust WHERE user_id = $1)';
+  var result;
   return db.scalar(existsQuery, [userId])
   .then(function(row) {
     var exists = row.exists;
@@ -21,9 +22,15 @@ module.exports = function(userId) {
   })
   .then(helper.slugify)
   .then(function(list) {
-    return {
+    result = {
       trustList: list.filter(function(e) { return e.type === 0; }),
       untrustList: list.filter(function(e) { return e.type === 1; })
     };
+    var q = 'SELECT max_depth FROM trust_max_depth WHERE user_id = $1';
+    return db.scalar(q, [userId]);
+  })
+  .then(function(row) {
+    result.maxDepth = row && row.max_depth >= 0 && row.max_depth <= 4 ? row.max_depth : 2;
+    return result;
   });
 };

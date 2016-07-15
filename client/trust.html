@@ -3,7 +3,7 @@
 </div>
 
 <div class="trust-section" ng-if="TrustCtrl.loggedIn">
-  <a class="button" ng-href="#" ng-click="TrustCtrl.showFeedbackModal = true">Leave feedback for {{TrustCtrl.user.username}}</a> <a class="right" ui-sref="trust-settings"><i class="fa fa-cog"></i> Edit My Trust Settings</a>
+  <a ng-hide="TrustCtrl.hideAddFeedback" class="button" ng-href="#" ng-click="TrustCtrl.showFeedbackModal = true">Leave feedback for {{TrustCtrl.user.username}}</a> <a class="right" ui-sref="trust-settings"><i class="fa fa-cog"></i> Edit My Trust Settings</a>
   <br />
 </div>
 
@@ -42,7 +42,7 @@
         <td ng-bind="feedback.risked_btc"></td>
         <td class="centered-text">
           <i ng-if="!feedback.reference" class="fa fa-external-link-square"></i>
-          <a ng-if="feedback.reference" ng-href="{{feedback.reference}}" target="_blank"><i class="fa fa-external-link-square"></i></a>
+          <a ng-if="feedback.reference" ng-href="{{feedback.reference}}" target="_blank" data-balloon="{{feedback.reference}}" data-balloon-pos="left"><i class="fa fa-external-link-square"></i></a>
         </td>
         <td ng-bind="feedback.comments" width="35%"></td>
       </tr>
@@ -91,7 +91,7 @@
           <td ng-bind="feedback.risked_btc"></td>
           <td class="centered-text">
             <i ng-if="!feedback.reference" class="fa fa-external-link-square"></i>
-            <a ng-if="feedback.reference" ng-href="{{feedback.reference}}" target="_blank"><i class="fa fa-external-link-square"></i></a>
+            <a ng-if="feedback.reference" ng-href="{{feedback.reference}}" target="_blank" data-balloon="{{feedback.reference}}" data-balloon-pos="left"><i class="fa fa-external-link-square"></i></a>
           </td>
           <td ng-bind="feedback.comments" width="35%"></td>
         </tr>
@@ -130,7 +130,7 @@
         <td ng-bind="feedback.risked_btc"></td>
         <td class="centered-text">
           <i ng-if="!feedback.reference" class="fa fa-external-link-square"></i>
-          <a ng-if="feedback.reference" ng-href="{{feedback.reference}}" target="_blank"><i class="fa fa-external-link-square"></i></a>
+          <a ng-if="feedback.reference" ng-href="{{feedback.reference}}" target="_blank" data-balloon="{{feedback.reference}}" data-balloon-pos="left"><i class="fa fa-external-link-square"></i></a>
         </td>
         <td ng-bind="feedback.comments" width="35%"></td>
       </tr>
