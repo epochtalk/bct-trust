@@ -37,7 +37,7 @@
             <i class="fa" ng-class="{'fa-plus-circle pos-feedback': feedback.scammer === false, 'fa-circle neu-feedback': feedback.scammer === null, 'fa-minus-circle neg-feedback': feedback.scammer === true}"></i>
           </span>
         </td>
-        <td><a ui-sref="profile({ username: feedback.reporter.username })">{{feedback.reporter.username}}</a> <trust-score user="feedback.reporter"></trust-score></td>
+        <td><a ui-sref="profile.posts({ username: feedback.reporter.username })">{{feedback.reporter.username}}</a> <trust-score user="feedback.reporter"></trust-score></td>
         <td ng-bind="feedback.created_at | date:'MM/dd/yy @ h:mma'"></td>
         <td ng-bind="feedback.risked_btc"></td>
         <td class="centered-text">
@@ -86,7 +86,7 @@
               <i class="fa" ng-class="{'fa-plus-circle pos-feedback': feedback.scammer === false, 'fa-circle neu-feedback': feedback.scammer === null, 'fa-minus-circle neg-feedback': feedback.scammer === true}"></i>
             </span>
           </td>
-          <td><a ui-sref="profile({ username: feedback.reporter.username })">{{feedback.reporter.username}}</a> <trust-score user="feedback.reporter"></trust-score></td>
+          <td><a ui-sref="profile.posts({ username: feedback.reporter.username })">{{feedback.reporter.username}}</a> <trust-score user="feedback.reporter"></trust-score></td>
           <td ng-bind="feedback.created_at | date:'MM/dd/yy @ h:mma'"></td>
           <td ng-bind="feedback.risked_btc"></td>
           <td class="centered-text">
@@ -125,7 +125,7 @@
             <i class="fa" ng-class="{'fa-plus-circle pos-feedback': feedback.scammer === false, 'fa-circle neu-feedback': feedback.scammer === null, 'fa-minus-circle neg-feedback': feedback.scammer === true}"></i>
           </span>
         </td>
-        <td><a ui-sref="profile({ username: feedback.user.username })">{{feedback.user.username}}</a> <trust-score user="feedback.user"></trust-score></td>
+        <td><a ui-sref="profile.posts({ username: feedback.user.username })">{{feedback.user.username}}</a> <trust-score user="feedback.user"></trust-score></td>
         <td ng-bind="feedback.created_at | date:'MM/dd/yy @ h:mma'"></td>
         <td ng-bind="feedback.risked_btc"></td>
         <td class="centered-text">
