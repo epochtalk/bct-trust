@@ -58,11 +58,15 @@ var directive = ['UserTrust', function(UserTrust) {
       };
 
       this.trustedUserExists = function() {
-        return !!ctrl.trustList.find(u => u.user_id_trusted === ctrl.userToTrust.user_id_trusted);
+        return !!ctrl.trustList.find(function(u) {
+          return u.user_id_trusted === ctrl.userToTrust.user_id_trusted;
+        });
       };
 
       this.untrustedUserExists = function() {
-        return !!ctrl.untrustList.find(u => u.user_id_trusted === ctrl.userToTrust.user_id_trusted);
+        return !!ctrl.untrustList.find(function(u) {
+          return u.user_id_trusted === ctrl.userToTrust.user_id_trusted;
+        });
       };
 
       this.editTrustList = function() {
