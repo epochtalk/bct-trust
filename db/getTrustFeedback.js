@@ -1,4 +1,5 @@
 var path = require('path');
+var Promise = require('bluebird');
 var dbc = require(path.normalize(__dirname + '/db'));
 var db = dbc.db;
 var trustSources = require(path.normalize(__dirname + '/trustSources'));
@@ -6,7 +7,7 @@ var getTrustStats = require(path.normalize(__dirname + '/getTrustStats'));
 var helper = dbc.helper;
 
 module.exports = function(userId, authedUserId) {
-  if (!userId) { return null; }
+  if (!userId) { return Promise.resolve({ sent:[], trusted: [], untrusted:[] }); }
   userId = helper.deslugify(userId);
 
   var trusted;

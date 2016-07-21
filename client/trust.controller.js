@@ -1,4 +1,4 @@
-var ctrl = ['$anchorScroll', '$timeout', 'Session', 'Alert', 'UserTrust', 'user', 'feedback', function($anchorScroll, $timeout, Session, Alert, UserTrust, user, feedback) {
+var ctrl = ['$timeout', 'Session', 'Alert', 'UserTrust', 'user', 'feedback', function($timeout, Session, Alert, UserTrust, user, feedback) {
     var ctrl = this;
     this.user = user;
     this.userFeedback = feedback;

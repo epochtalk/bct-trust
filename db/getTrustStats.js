@@ -6,7 +6,7 @@ var helper = dbc.helper;
 var Promise = require('bluebird');
 
 module.exports = function(userId, authedUserId, authTrustedSources) {
-  if (!userId) { return null; }
+  if (!userId) { return Promise.resolve({ neg:0, pos:0, score:0 }); }
 
   userId = helper.deslugify(userId);
   var trusted, uniqueNegFeedback, uniquePosFeedback;
