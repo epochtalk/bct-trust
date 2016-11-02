@@ -1,4 +1,4 @@
-var html= '<span ng-if="vm.visible" class="trust-score {{vm.style()}}">{{vm.stats.score}} : <span class="{{vm.negStyle}}">-{{vm.stats.neg}}</span> / +{{vm.stats.pos}}</span>';
+var html= '<a ui-sref="trust({ username: vm.user.username })"><span ng-if="vm.visible" class="trust-score {{vm.style()}}">{{vm.stats.score}} : <span class="{{vm.negStyle}}">-{{vm.stats.neg}}</span> / +{{vm.stats.pos}}</span></a>';
 
 var directive = [function() {
   return {
