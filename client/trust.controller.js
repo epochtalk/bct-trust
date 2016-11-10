@@ -25,6 +25,7 @@ var ctrl = ['$timeout', 'Session', 'Alert', 'UserTrust', 'user', 'feedback', fun
       ctrl.feedbackSubmitted = true;
       ctrl.submitFeedbackBtnLabel = 'Loading...';
       if (ctrl.feedback.scammer === -1) { ctrl.feedback.scammer = null; }
+      else { ctrl.feedback.scammer = !!ctrl.feedback.scammer; }
       ctrl.feedback.reference = ctrl.feedback.reference || undefined;
       UserTrust.addTrustFeedback(ctrl.feedback).$promise
       .then(function() {
