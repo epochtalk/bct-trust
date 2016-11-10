@@ -1,6 +1,6 @@
 {
   "name": "bct-trust",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Bitcoin talk trust plugin for epochtalk forum",
   "main": "index.js",
   "scripts": {
