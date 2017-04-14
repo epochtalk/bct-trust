@@ -63,10 +63,11 @@ module.exports = {
   handler: function(request, reply) {
     var username = querystring.unescape(request.params.username);
     var promise = request.db.users.userByUsername(username)
-    .catch(function() { return Boom.notFound(); })
     .then(function(user) {
       return request.db.userTrust.getTrustFeedback(user.id, request.auth.credentials.id);
-    });
+    })
+    .error(request.errorMap.toHttpError);
+
     return reply(promise);
   }
 };

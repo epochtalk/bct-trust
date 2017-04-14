@@ -50,7 +50,9 @@ module.exports = {
       reference: request.payload.reference,
       comments: request.payload.comments
     };
-    var promise = request.db.userTrust.addTrustFeedback(opts);
+    var promise = request.db.userTrust.addTrustFeedback(opts)
+    .error(request.errorMap.toHttpError);
+
     return reply(promise);
   }
 };

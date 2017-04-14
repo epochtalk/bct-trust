@@ -48,7 +48,9 @@ module.exports = {
       maxDepth: request.payload.max_depth,
       list: request.payload.list
     };
-    var promise = request.db.userTrust.editTrustList(opts);
+    var promise = request.db.userTrust.editTrustList(opts)
+    .error(request.errorMap.toHttpError);
+
     return reply(promise);
   }
 };
