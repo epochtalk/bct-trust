@@ -24,7 +24,9 @@ module.exports = {
     pre: [ { method: 'auth.userTrust.deleteTrustBoard(server, auth)' } ]
   },
   handler: function(request, reply) {
-    var promise = request.db.userTrust.deleteTrustBoard(request.params.board_id);
+    var promise = request.db.userTrust.deleteTrustBoard(request.params.board_id)
+    .error(request.errorMap.toHttpError);
+
     return reply(promise);
   }
 };

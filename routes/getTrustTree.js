@@ -35,8 +35,14 @@ module.exports = {
   handler: function(request, reply) {
     var userId = request.auth.credentials.id;
     var promise;
-    if (request.query.hierarchy) { promise = request.db.userTrust.getTrustHierarchy(userId); }
-    else { promise = request.db.userTrust.getTrustDepth(userId); }
+    if (request.query.hierarchy) {
+      promise = request.db.userTrust.getTrustHierarchy(userId)
+      .error(request.errorMap.toHttpError);
+    }
+    else {
+      promise = request.db.userTrust.getTrustDepth(userId)
+      .error(request.errorMap.toHttpError);
+    }
     return reply(promise);
   }
 };
