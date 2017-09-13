@@ -17,6 +17,7 @@ module.exports = function(userId) {
     var depth = 0;
     return Promise.map(debug, function(level) {
       return Promise.map(level, function(userInfo) {
+        console.log(userInfo);
         return db.scalar('SELECT id, username FROM users WHERE id = $1', [userInfo[0]])
         .then(function(user) {
           user.level_trust = userInfo[1];

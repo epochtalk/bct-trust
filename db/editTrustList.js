@@ -38,7 +38,7 @@ module.exports = function(opts) {
       trustList: list.filter(function(e) { return e.type === 0; }),
       untrustList: list.filter(function(e) { return e.type === 1; })
     };
-    q = 'INSERT INTO trust_max_depth (user_id, max_depth) VALUES ($1, $2) ON CONFLICT ON CONSTRAINT user_id_unique DO UPDATE SET max_depth = $2';
+    q = 'INSERT INTO trust_max_depth (user_id, max_depth) VALUES ($1, $2) ON CONFLICT (user_id) DO UPDATE SET max_depth = $2';
     return db.sqlQuery(q, [userId, opts.maxDepth]);
   })
   .then(function() {
