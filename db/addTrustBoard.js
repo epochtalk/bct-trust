@@ -4,7 +4,7 @@ var db = dbc.db;
 var helper = dbc.helper;
 
 module.exports = function(boardId) {
-  var q = 'INSERT INTO trust_boards (board_id) VALUES($1) ON CONFLICT ON CONSTRAINT board_id_unique DO NOTHING';
+  var q = 'INSERT INTO trust_boards (board_id) VALUES($1) ON CONFLICT (board_id) DO NOTHING';
   return db.sqlQuery(q, [helper.deslugify(boardId)])
   .then(function() { return boardId; });
 };
