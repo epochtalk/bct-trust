@@ -144,7 +144,7 @@
     <h3 class="thin-underline">Leave trust feedback for {{TrustCtrl.user.username}}</h3>
     <label>
       Risked BTC
-      <input type="number" ng-model="TrustCtrl.feedback.risked_btc" step="any" value="0.0000" ng-required />
+      <input modal-focus="{{TrustCtrl.showFeedbackModal}}" type="number" ng-model="TrustCtrl.feedback.risked_btc" step="any" value="0.0000" ng-required />
     </label>
     <label>
       Reference Link
