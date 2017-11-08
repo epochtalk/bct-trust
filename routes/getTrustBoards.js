@@ -14,7 +14,8 @@ module.exports = {
   path: '/api/trustboards',
   config: { auth: { strategy: 'jwt' } },
   handler: function(request, reply) {
-    var promise = request.db.userTrust.getTrustBoards();
+    var promise = request.db.userTrust.getTrustBoards()
+    .error(request.errorMap.toHttpError);
     return reply(promise);
   }
 };

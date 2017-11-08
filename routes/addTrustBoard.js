@@ -24,7 +24,8 @@ module.exports = {
     pre: [ { method: 'auth.userTrust.addTrustBoard(server, auth)' } ]
   },
   handler: function(request, reply) {
-    var promise = request.db.userTrust.addTrustBoard(request.payload.board_id);
+    var promise = request.db.userTrust.addTrustBoard(request.payload.board_id)
+    .error(request.errorMap.toHttpError);
     return reply(promise);
   }
 };

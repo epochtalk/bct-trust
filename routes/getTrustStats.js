@@ -31,7 +31,8 @@ module.exports = {
     .catch(function() { return Boom.notFound(); })
     .then(function(user) {
       return request.db.userTrust.getTrustStats(user.id, request.auth.credentials.id);
-    });
+    })
+    .error(request.errorMap.toHttpError);
     return reply(promise);
   }
 };
