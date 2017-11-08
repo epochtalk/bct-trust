@@ -17,7 +17,7 @@
   "devDependencies": {
     "bluebird": "^3.3.1",
     "boom": "^3.1.2",
-    "epochtalk-core-pg": "epochtalk/core-pg",
+    "epochtalk-core-pg": "epochtalk/core-pg#update/node-pg",
     "joi": "^7.2.2"
   }
 }
