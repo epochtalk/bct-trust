@@ -9,7 +9,10 @@ var directive = [function() {
     controllerAs: 'vm',
     controller: [function() {
       var ctrl = this;
-      this.stats = this.user.stats;
+
+      this.$onInit = function() {
+        ctrl.stats = ctrl.user.stats;
+      }
 
       this.style = function() {
         var stats = ctrl.stats;
