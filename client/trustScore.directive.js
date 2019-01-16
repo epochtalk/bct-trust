@@ -10,8 +10,9 @@ var directive = [function() {
     controller: [function() {
       var ctrl = this;
 
-      this.$onInit = function() {
+      ctrl.$onInit = function() {
         ctrl.stats = ctrl.user.stats;
+        ctrl.negStyle = ctrl.stats.neg === 0 ? '' : 'neg';
       }
 
       this.style = function() {
@@ -23,8 +24,6 @@ var directive = [function() {
           if (stats.score > 14) { return 'high'; }
         }
       };
-
-      this.negStyle = this.user.stats.neg === 0 ? '' : 'neg';
 
     }]
   };
